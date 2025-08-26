@@ -46,6 +46,13 @@ export default [
       },
     },
   },
+  {
+    files: ['libs/shared-types/**/*.ts', 'libs/shared-types/**/*.tsx'],
+    parserOptions: {
+      project: ['libs/shared-types/tsconfig.lib.json', 'libs/data-access-layer/tsconfig.lib.json'],
+      tsconfigRootDir: '.',
+    },
+  },
 
   {
     files: ['**/generated.ts'],

@@ -4,3 +4,4 @@
 
 export * from './type.entity';
 export * from './type.relations';
+export * from './type.types';

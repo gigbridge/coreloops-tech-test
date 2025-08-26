@@ -53,7 +53,7 @@
     "../../dist/dist/apps/web/types/**/*.ts",
     "next-env.d.ts",
     ".next/types/**/*.ts",
-    "src/components/pages/organisation-settings/cost-code"
+    "../../libs/shared-types/src"
   ],
   "exclude": [
     "node_modules",

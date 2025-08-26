@@ -4,3 +4,4 @@
 
 export * from './ability.entity';
 export * from './ability.relations';
+export * from './ability.types';

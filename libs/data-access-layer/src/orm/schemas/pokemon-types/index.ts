@@ -4,3 +4,4 @@
 
 export * from './pokemon-type.entity';
 export * from './pokemon-type.relations';
+export * from './pokemon-types.types';

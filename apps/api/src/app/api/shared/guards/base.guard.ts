@@ -1,11 +1,11 @@
 import { Auth, UserStore } from '@coreloops-api/shared/contexts';
 import { UserSelectEntity } from '@coreloops-orm/schemas';
-import { UserDto } from '@coreloops/shared-types';
+import { ViewUserDto } from '@coreloops/shared-types';
 import { CanActivate, ExecutionContext, HttpException, Injectable } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ClsService } from 'nestjs-cls';
 
-type CoreloopsRequest = Request & { auth?: Auth; user?: UserDto };
+type CoreloopsRequest = Request & { auth?: Auth; user?: ViewUserDto };
 
 @Injectable()
 export abstract class BaseGuard implements CanActivate {
@@ -16,7 +16,7 @@ export abstract class BaseGuard implements CanActivate {
       throw new HttpException('Missing user', 400);
     }
 
-    const userDto = new UserDto(user);
+    const userDto = new ViewUserDto(user);
     request.user = userDto;
     this.cls.set('user', userDto);
   }

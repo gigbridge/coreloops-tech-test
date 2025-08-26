@@ -6,7 +6,7 @@ import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
 export class PokemonController {
   constructor(private readonly pokemonService: PokemonService) {}
 
-  @Get('get')
+  @Get()
   @HttpCode(HttpStatus.OK)
   public async findMultiplePokemon(@Query() body: CursorQueryDto) {
     return this.pokemonService.findMultiplePokemon(body);

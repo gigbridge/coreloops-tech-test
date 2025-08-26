@@ -1,7 +1,7 @@
 import { UserSelectEntity } from '@coreloops/data-access-layer';
 import { IsString, IsUUID } from 'class-validator';
 
-export class UserDto {
+export class ViewUserDto {
   @IsUUID()
   id!: string;
 

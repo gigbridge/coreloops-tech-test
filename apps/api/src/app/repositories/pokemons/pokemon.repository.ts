@@ -1,4 +1,5 @@
 import { UserStore } from '@coreloops-api/shared/contexts';
+import { PokemonSelectEntity } from '@coreloops-orm/schemas/pokemons/pokemon.types';
 import { BaseRepository } from '@coreloops-repos/base.repository';
 import { DrizzleProvider, pokemonEntity } from '@coreloops/data-access-layer';
 import { CursorQueryDto } from '@coreloops/shared-types';
@@ -16,34 +17,36 @@ export class PokemonRepository extends BaseRepository {
     super(drizzle, cls);
   }
 
-  async findMultiplePokemon({ afterId, limit = 10 }: CursorQueryDto) {
-    const pageSize = Math.min(Math.max(limit, 1), 100);
-
-    const count = await this.getCount();
-
+  async findMultiplePokemon({
+    afterId,
+    limit = 10,
+  }: CursorQueryDto): Promise<{ hasNextPage: boolean; entities: PokemonSelectEntity[] }> {
     const where = afterId ? gt(this.table.pokedexNumber, Number(afterId)) : undefined;
 
     const rows = await this.drizzle.db.query.pokemonEntity.findMany({
       where,
       orderBy: [asc(this.table.pokedexNumber)],
-      limit: pageSize + 1,
+      limit: limit + 1,
+      with: {
+        abilities: {
+          with: {
+            ability: true,
+          },
+        },
+        types: {
+          with: {
+            type: true,
+          },
+        },
+      },
     });
 
-    const hasNextPage = rows.length > pageSize;
-    const nodes = hasNextPage ? rows.slice(0, pageSize) : rows;
-    const lastNode = nodes[nodes.length - 1];
-    const endCursor = lastNode ? lastNode.id : null;
-
-    const hasPreviousPage = Boolean(afterId);
+    const hasNextPage = rows.length > limit;
+    const entities = hasNextPage ? rows.slice(0, limit) : rows;
 
     return {
-      nodes,
-      pageInfo: {
-        endCursor,
-        hasNextPage,
-        hasPreviousPage,
-        total: count,
-      },
+      hasNextPage,
+      entities,
     };
   }
 }
