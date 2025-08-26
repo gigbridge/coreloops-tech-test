@@ -13,6 +13,12 @@ export class UserRepository {
     });
   }
 
+  async getUserById(id: string) {
+    return this.drizzle.db.query.userEntity.findFirst({
+      where: eq(userEntity.id, id),
+    });
+  }
+
   async createUser(username: string, password: string) {
     const [inserted] = await this.drizzle.db
       .insert(userEntity)

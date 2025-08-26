@@ -1,4 +1,5 @@
 import { UserService } from '@coreloops-api/rest/services/user.service';
+import { Public } from '@coreloops-api/shared/guards';
 import { UserSelectEntity } from '@coreloops-orm/users/user.types';
 import {
   BadRequestException,
@@ -30,6 +31,7 @@ export class AuthController {
 
   @Post('sign-in')
   @HttpCode(HttpStatus.OK)
+  @Public()
   async signIn(@Body() body: CredentialsDto) {
     const { username, password } = body;
     if (!username || !password) {
@@ -57,6 +59,7 @@ export class AuthController {
 
   @Post('sign-up')
   @HttpCode(HttpStatus.CREATED)
+  @Public()
   async signUp(@Body() body: CredentialsDto) {
     const { username, password } = body;
     if (!username || !password) {
