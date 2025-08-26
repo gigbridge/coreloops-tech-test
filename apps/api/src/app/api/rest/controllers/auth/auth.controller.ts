@@ -1,5 +1,6 @@
 import { UserService } from '@coreloops-api/rest/services/user.service';
 import { Public } from '@coreloops-api/shared/guards';
+import { UserSelectEntity } from '@coreloops-orm/schemas';
 import {
   BadRequestException,
   Body,
@@ -12,7 +13,6 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { UserSelectEntity } from 'src/app/repositories/users/user.types';
 
 type CredentialsDto = {
   username: string;
