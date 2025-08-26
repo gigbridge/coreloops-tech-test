@@ -1,95 +1,134 @@
-# Coreloops
+# Pokédex Tech Test
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+Greetings, Trainer! 👋
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+Professor Oak needs your help to complete his Pokédex.
+He’s entrusted you with a Coreloops codebase, but it’s missing some key features.
+Your mission is to extend the project, refine it, and prove your skills as a true full-stack Pokémon Master.
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/next?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+---
 
-## Finish your CI setup
+## Getting Started
+The repository should have everything you need, including env files, to run the project. If you have any issues, please don't hesitate to reach out to me at `stephen@coreloops.ai` to ask any questions!
+### Initial Setup
+1. Install dependencies:
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/s8NvUzchUZ)
+    ```
+    pnpm install
+   ```
 
-## Run tasks
+2. Run the following command to get the database started:
 
-To set up the database, migrations and seed data run the following commands separately:
+    ```
+    docker compose up -d
+    ```
 
-```sh
-docker compose up -d pg
-cd apps/api && drizzle-kit migrate && cd ../..
-pnpm run seed:local
+3. Run the following command to migrate the database:
+
+    ```
+    pnpm run migrate:local
+    ```
+
+4. Run the following command to seed the initial data:
+
+    ```
+    pnpm run seed:local
+    ```
+
+5. Run the following command to start the server
+
+    ```
+    pnpm run serve:dev
+    ```
+
+6. Run the following command to start the frontend:
+
+    ```
+    pnpm run serve:web
+   ```
+
+### Tooling
+Our database definitions live in `libs/data-access-layer`. In here we use Drizzle to handle our migrations. When you add a new table to the database, you must run the command `pnpm run barrels` to generate barrel files
+and they will be auto imported into the schema. You them also need to add the new files into the `drizzle.config.ts` file.
+
+We have a `libs/shared-types` package that houses our data models, separated by View / Post. Whenever a new file is added in here, you can run the same `pnpm run barrels` command and it will auto generate the barrel files
+and you can then import the types into whichever project requires them.
+
+To generate and perform a migration you can use `pnpm run migrate:local`.
+
+## Tasks
+
+Your goal is to complete as many of the following tasks as possible within 3 hours. Don’t worry if you don’t finish them all – we want to see your approach, thought process, and code quality more than a perfectly finished product.
+1. Create new database tables
+   - Add a table for moves (there is already a seed file located at `libs/data-access-layer/orm/seed/seed-moves.ts`)
+   - Add a join table for pokemon_moves (so Pokémon can learn many moves) (there is already a seed file located at `libs/data-access-layer/orm/seed/seed-pokemon-moves.ts`)
+   - Add the seed files to the `libs/data-access-layer/orm/seed/seed.ts` script and insert into the database.
+2. Pokémon detail modal
+   - On the home page, each Pokémon card has a “View” button.
+   - When clicked, a modal should appear showing:
+     - The Pokémon’s details
+     - All the moves it can learn, in a table format
+     - The table must:
+       - Be sortable by level and move power
+       - Default sort: level ascending
+3. Refactor Home Page
+   - Improve the code structure and readability of the home page.
+   - Apply React best practices for state management, hooks, and component composition.
+4. Admin-only delete
+   - Admin users can delete Pokémon from the database.
+   - Non-admin users should not see the delete button at all.
+   - Extend the users table with a new column:
+```
+is_admin boolean DEFAULT false
 ```
 
-To run the dev server for the frontend, use:
+5. Polish
+   - Anything else you can do to improve UX, code clarity, or consistency is a bonus.
 
-```sh
-npx nx dev web
-```
+---
 
-To run the backend dev server, use:
+Timebox
+•	You have 3 hours to work on this.
+•	Get as far as you can – partial progress is fine, we’ll review your approach.
 
-```sh
-npx nx serve api
-```
+---
 
-To create a production bundle:
 
-```sh
-npx nx build web
-```
 
-To see all available targets to run for a project, run:
+Submitting Your Work
+1. Clone or fork this repository.
+2. Complete the tasks in your fork.
+3. Push your finished work to a new GitHub repository and include a fresh readme. The readme should contain the following:
+   - A brief description of the changes you've made and why you made them (if applicable)
+   - Whether or not AI was used, and for what (using AI is OK, we just want to know how/if you use it)
+   - What was challenging about the task, skip this if everything was all good!
+4. Email the repo link to:
+   - stephen@coreloops.ai
+   - gabriel@coreloops.ai
+5. Deadline: Thursday 5pm (UK time)
 
-```sh
-npx nx show project web
-```
+---
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+Hints from the Professor
+•	Use Drizzle ORM migrations for schema changes.
+•	The UI is powered with Next.js, React, and shadcn/ui components.
+•	Keep your changes modular – imagine the Pokédex will grow with many new features.
+•	Bonus points for clean commits, type safety, and solid React patterns.
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
-## Add new projects
+Example Feature Flow
+1.	Add moves + pokemon_moves tables.
+2.	Update seed data / controllers to expose moves.
+3.	On Pokémon card → View → open modal → show table of moves.
+4.	Sort the table by clicking headers. (maybe tanstack table??)
+5.	Add is_admin to users → show delete button only if true.
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+---
 
-Use the plugin's generator to create new projects.
+Closing Words
 
-To generate a new application, use:
+“Your very own Pokémon legend is about to unfold!
+A world of dreams and adventures with code awaits! Let’s go!” -, Professor Oak
 
-```sh
-npx nx g @nx/next:app demo
-```
-
-To generate a new library, use:
-
-```sh
-npx nx g @nx/react:lib mylib
-```
-
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
-
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/nx-api/next?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Good luck, Trainer, we’re excited to see how you evolve this Pokédex! 🚀

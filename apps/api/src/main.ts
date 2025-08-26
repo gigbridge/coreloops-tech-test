@@ -26,7 +26,10 @@ function parseLogLevelEnv(value: string | undefined): LogLevel[] {
   if (!value) return defaultLogLevels;
   try {
     const parsed = JSON.parse(value) as LogLevel[];
-    if (!Array.isArray(parsed)) throw new Error('Log level must be an array');
+    if (!Array.isArray(parsed)) {
+      // noinspection ExceptionCaughtLocallyJS - we want to handle this manually
+      throw new Error('Log level must be an array');
+    }
     const allowed = defaultLogLevels;
     return parsed.filter((level): level is LogLevel => allowed.includes(level));
   } catch (e) {
@@ -42,7 +45,6 @@ async function bootstrap() {
   app.enableCors({
     origin: process.env.CROSS_ORIGIN_ORIGIN,
     credentials: true,
-    exposedHeaders: ['x-new-access-token', 'x-new-refresh-token'],
   });
   app.enableShutdownHooks();
   app.enableVersioning({ type: VersioningType.URI });

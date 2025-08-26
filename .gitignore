@@ -47,9 +47,6 @@ out
 
 
 ### coreloops
-# env
-*.env
-**/*.env*
 /envs
 
 # data

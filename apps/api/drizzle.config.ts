@@ -20,6 +20,8 @@ export default defineConfig({
     `${basePath}/pokemons/pokemon.relations.ts`,
     `${basePath}/types/type.entity.ts`,
     `${basePath}/types/type.relaseartions.ts`,
+    `${basePath}/users/user.entity.ts`,
+    `${basePath}/users/user.relaseartions.ts`,
   ],
   out: './drizzle-orm/migrations',
   dialect: 'postgresql',
