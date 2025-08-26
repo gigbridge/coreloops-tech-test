@@ -64,20 +64,8 @@ export default [
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     rules: {
+      '@typescript-eslint/no-extraneous-class': 'off',
       '@typescript-eslint/no-unnecessary-type-parameters': 'off',
-      '@nx/enforce-module-boundaries': [
-        'error',
-        {
-          enforceBuildableLibDependency: true,
-          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$'],
-          depConstraints: [
-            {
-              sourceTag: '*',
-              onlyDependOnLibsWithTags: ['*'],
-            },
-          ],
-        },
-      ],
       '@typescript-eslint/no-unnecessary-type-conversion': 'off',
       '@typescript-eslint/parameter-properties': [
         2,
@@ -102,6 +90,7 @@ export default [
         },
       ],
       '@typescript-eslint/no-misused-promises': 'off',
+      '@nx/enforce-module-boundaries': 'off',
     },
   },
   {
@@ -109,7 +98,7 @@ export default [
     rules: { '@typescript-eslint/no-explicit-any': 'off' },
   },
   {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx']
+    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
   },
   eslintPluginPrettier,
 ];

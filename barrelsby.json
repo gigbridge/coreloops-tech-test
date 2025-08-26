@@ -1,0 +1,12 @@
+{
+  "directory": [
+    "libs/data-access-layer/src",
+    "libs/shared-types/src"
+  ],
+  "delete": true,
+  "structure": "flat",
+  "barrelName": "index.ts",
+  "exclude": ["__tests__", "base/*", "seed/*"],
+  "location": "all",
+  "singleQuotes": true
+}

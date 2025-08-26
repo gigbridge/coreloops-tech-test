@@ -1,15 +1,12 @@
 import { IncomingMessage } from 'http';
 
+import { UserDto } from '@coreloops/shared-types';
 import { ClsStore } from 'nestjs-cls';
 
-type UserModel = any;
-
 export interface UserStore extends ClsStore {
-  user?: UserModel;
-  isGlobalAdmin?: boolean;
+  user?: UserDto;
 }
 
 export class UserContext extends IncomingMessage {
-  user?: UserModel;
-  isGlobalAdmin?: boolean;
+  user?: UserDto;
 }

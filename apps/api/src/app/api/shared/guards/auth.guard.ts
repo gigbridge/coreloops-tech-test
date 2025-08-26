@@ -1,5 +1,5 @@
 import { BaseGuard } from '@coreloops-api/shared/guards/base.guard';
-import { UserRepository } from '@coreloops-orm/users/user.repository';
+import { UserRepository } from '@coreloops-repos/users/user.repository';
 import {
   CanActivate,
   ClassProvider,
@@ -56,8 +56,7 @@ export class JwtAuthGuard extends BaseGuard implements CanActivate {
 
       const user = await this.userRepository.getUserById(payload.sub);
 
-      this.cls.set('user', user);
-      request.user = user;
+      this.assignUserToRequestAndStore(request, user);
 
       return true;
     } catch (err: unknown) {

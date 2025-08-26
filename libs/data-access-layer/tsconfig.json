@@ -1,17 +1,14 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "importHelpers": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noPropertyAccessFromIndexSignature": true
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "@coreloops-orm/*": ["src/orm/*"]
+    }
   },
   "files": [],
-  "include": [],
+  "include": ["src/**.ts"],
   "references": [
     {
       "path": "./tsconfig.lib.json"

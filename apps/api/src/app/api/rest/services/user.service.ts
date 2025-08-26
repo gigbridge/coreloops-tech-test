@@ -1,4 +1,4 @@
-import { UserRepository } from '@coreloops-orm/users/user.repository';
+import { UserRepository } from '@coreloops-repos/users/user.repository';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

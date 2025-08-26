@@ -3,7 +3,11 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "declaration": true,
-    "types": ["node"]
+    "types": ["node"],
+    "baseUrl": "./",
+    "paths": {
+      "@coreloops-orm/*": ["src/orm/*"]
+    }
   },
   "include": ["src/**/*.ts"]
 }

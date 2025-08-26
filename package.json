@@ -6,10 +6,14 @@
   "scripts": {
     "serve:web": "nx dev web",
     "serve:server": "nx serve api",
-    "migration:local": "cd apps/api && NODE_ENV=development npx drizzle-kit generate && cd ../..",
-    "migration:local:push": "cd apps/api && NODE_ENV=development npx drizzle-kit push --force && cd ../..",
+    "migration:local": "cd libs/data-access-layer && NODE_ENV=development npx drizzle-kit generate && cd ../..",
+    "migration:local:push": "cd libs/data-access-layer && NODE_ENV=development npx drizzle-kit push --force && cd ../..",
     "migrate:local": "pnpm run migration:local && pnpm run migration:local:push",
-    "seed:local": "cd apps/api && npx tsx ./src/app/orm/seed/seed.ts"
+    "seed:local": "cd libs/data-access-layer && npx tsx ./src/orm/seed/seed.ts",
+    "generate:barrels": "barrelsby --config barrelsby.json",
+    "format:barrels": "prettier --write \"libs/**/index.ts\"",
+    "lint:barrels": "eslint --fix \"libs/**/index.ts\"",
+    "barrels": "pnpm run generate:barrels && pnpm run lint:barrels && pnpm run format:barrels"
   },
   "prettier": {
     "arrowParens": "avoid",
@@ -166,6 +170,7 @@
     "ts-eslint": "npm:@typescript-eslint/utils@^8.24.1",
     "ts-jest": "^29.2.5",
     "ts-node": "10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "tsx": "^4.19.4",
     "typescript": "~5.7.3",
     "typescript-eslint": "^8.34.1",
