@@ -1,7 +1,7 @@
 import { pokemonAbilityEntity, pokemonEntity, pokemonTypeEntity } from '@coreloops-orm/schemas';
 import { relations } from 'drizzle-orm';
 
-export const pokemonRelations = relations(pokemonEntity, ({ one, many }) => {
+export const pokemonRelations = relations(pokemonEntity, ({ many }) => {
   return {
     types: many(pokemonTypeEntity, {
       relationName: 'pokemon_types_pokemon',

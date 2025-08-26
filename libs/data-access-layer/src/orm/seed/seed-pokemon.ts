@@ -6509,4 +6509,4 @@ export const seedPokemon = [
     pokedexNumber: 10277,
     name: 'terapagos-stellar',
   },
-]
+];
