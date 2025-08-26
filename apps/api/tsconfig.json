@@ -16,6 +16,8 @@
     "paths": {
       "@coreloops-api/*": ["src/app/api/*"],
       "@coreloops-orm/*": ["src/app/orm/*"],
+      "@coreloops/shared-types": ["../../libs/shared-types/src"],
+      "@coreloops/data-access-layer": ["../../libs/data-access-layer/src"]
     }
   }
 }

@@ -38,7 +38,9 @@
       ],
       "@coreloops-ui/*": [
         "./src/components/ui/*"
-      ]
+      ],
+      "@coreloops/shared-types": ["../../libs/shared-types/src"],
+      "@coreloops/data-access-layer": ["../../libs/data-access-layer/src"]
     }
   },
   "include": [

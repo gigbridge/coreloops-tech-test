@@ -12,6 +12,8 @@
   "include": [
     "./src/app/templates/*.json",
     "./src/**/*.ts",
+    "../../libs/shared-types",
+    "../../libs/data-access-layer"
   ],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

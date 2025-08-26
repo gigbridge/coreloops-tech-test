@@ -12,6 +12,10 @@ const baseConfig = {
   output: 'standalone',
   webpack: config => {
     /* eslint-disable-next-line */
+    config.resolve.alias['@coreloops/shared-types'] = path.resolve(__dirname, '../../libs/shared-types/src');
+    /* eslint-disable-next-line */
+    config.resolve.alias['@coreloops/data-access-layer'] = path.resolve(__dirname, '../../libs/data-access-layer/src');
+    /* eslint-disable-next-line */
     return config;
   },
   env: {
