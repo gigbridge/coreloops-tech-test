@@ -9,6 +9,7 @@ Your mission is to extend the project, refine it, and prove your skills as a tru
 ---
 
 ## Getting Started
+The repository should have everything you need, including env files, to run the project. If you have any issues, please don't hesitate to reach out to me at `stephen@coreloops.ai` to ask any questions!
 ### Initial Setup
 1. Install dependencies:
 
