@@ -13,15 +13,15 @@ import * as userRelations from '@coreloops-orm/schemas/users/user.relations';
 
 export const schema = {
   abilityEntity,
-  abilityRelations,
+  ...abilityRelations,
   pokemonAbilityEntity,
-  pokemonAbilityRelations,
+  ...pokemonAbilityRelations,
   pokemonTypeEntity,
-  pokemonTypeRelations,
+  ...pokemonTypeRelations,
   pokemonEntity,
-  pokemonRelations,
+  ...pokemonRelations,
   typeEntity,
-  typeRelations,
+  ...typeRelations,
   userEntity,
-  userRelations,
+  ...userRelations,
 } as const;
