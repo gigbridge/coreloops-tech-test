@@ -11,17 +11,25 @@ import * as typeRelations from '@coreloops-orm/schemas/types/type.relations';
 import { userEntity } from '@coreloops-orm/schemas/users/user.entity';
 import * as userRelations from '@coreloops-orm/schemas/users/user.relations';
 
-export const schema = {
+export const entitySchema = {
   abilityEntity,
-  ...abilityRelations,
   pokemonAbilityEntity,
-  ...pokemonAbilityRelations,
   pokemonTypeEntity,
-  ...pokemonTypeRelations,
   pokemonEntity,
-  ...pokemonRelations,
   typeEntity,
-  ...typeRelations,
   userEntity,
+};
+
+export const relationSchema = {
+  ...abilityRelations,
+  ...pokemonAbilityRelations,
+  ...pokemonTypeRelations,
+  ...pokemonRelations,
+  ...typeRelations,
   ...userRelations,
+};
+
+export const schema = {
+  ...entitySchema,
+  ...relationSchema,
 } as const;

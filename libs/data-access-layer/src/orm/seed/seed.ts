@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { schema } from '@coreloops-orm/schema';
+import { entitySchema } from '@coreloops-orm/schema';
 import {
   abilityEntity,
   pokemonAbilityEntity,
@@ -23,7 +23,7 @@ if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL is not set');
 }
 
-const db = drizzle(process.env.DATABASE_URL, { schema });
+const db = drizzle(process.env.DATABASE_URL, { schema: entitySchema });
 
 const BATCH_SIZE = 1000;
 
@@ -34,7 +34,7 @@ function chunk<T>(arr: readonly T[], size = BATCH_SIZE): T[][] {
 }
 
 async function insertBatched<T>(
-  tx: NodePgTransaction<typeof schema, any>,
+  tx: NodePgTransaction<typeof entitySchema, any>,
   table: any,
   rows: readonly T[],
   mapValues?: (row: T) => any,
