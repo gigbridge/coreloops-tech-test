@@ -48,8 +48,7 @@ The repository should have everything you need, including env files, to run the 
    ```
 
 ### Tooling
-Our database definitions live in `libs/data-access-layer`. In here we use Drizzle to handle our migrations. When you add a new table to the database, you must run the command `pnpm run barrels` to generate barrel files
-and they will be auto imported into the schema. You them also need to add the new files into the `drizzle.config.ts` file.
+Our database definitions live in `libs/data-access-layer`. In here we use Drizzle to handle our migrations. When you add a new table to the database, you must add them into the schema located at `libs/data-access-layer/src/orm/schema.ts` using the same structure that is there. You then also need to add the new files into the `drizzle.config.ts` file.
 
 We have a `libs/shared-types` package that houses our data models, separated by View / Post. Whenever a new file is added in here, you can run the same `pnpm run barrels` command and it will auto generate the barrel files
 and you can then import the types into whichever project requires them.
