@@ -12,16 +12,16 @@ import * as userEntity from './schemas/users/user.entity';
 import * as userRelations from './schemas/users/user.relations';
 
 export const schema = {
-  abilityEntity,
-  abilityRelations,
-  pokemonAbilityEntity,
-  pokemonAbilityRelations,
-  pokemonTypeEntity,
-  pokemonTypeRelations,
-  pokemonEntity,
-  pokemonRelations,
-  typeEntity,
-  typeRelations,
-  userEntity,
-  userRelations,
+  ...abilityEntity,
+  ...abilityRelations,
+  ...pokemonAbilityEntity,
+  ...pokemonAbilityRelations,
+  ...pokemonTypeEntity,
+  ...pokemonTypeRelations,
+  ...pokemonEntity,
+  ...pokemonRelations,
+  ...typeEntity,
+  ...typeRelations,
+  ...userEntity,
+  ...userRelations,
 };
