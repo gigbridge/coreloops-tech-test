@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { schema } from '@coreloops-orm/schema';
+import dotenv from 'dotenv';
+import { drizzle, NodePgTransaction } from 'drizzle-orm/node-postgres';
+import path from 'node:path';
+import { schema } from '../schema';
 import {
   abilityEntity,
   moveEntity,
@@ -8,10 +11,7 @@ import {
   pokemonMoveEntity,
   pokemonTypeEntity,
   typeEntity,
-} from '@coreloops-orm/schemas';
-import dotenv from 'dotenv';
-import { drizzle, NodePgTransaction } from 'drizzle-orm/node-postgres';
-import path from 'node:path';
+} from '../schemas';
 import { seedAbilities } from './seed-abilities';
 import { seedMoves } from './seed-moves';
 import { seedPokemon } from './seed-pokemon';

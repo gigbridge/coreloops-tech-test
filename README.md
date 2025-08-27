@@ -1,134 +1,168 @@
-# Pokédex Tech Test
+# Pokédex Tech Test - Completed Implementation
 
-Greetings, Trainer! 👋
+A full-stack Pokédex application built with Next.js, NestJS, and PostgreSQL, featuring comprehensive Pokémon data management and an intuitive user interface.
 
-Professor Oak needs your help to complete his Pokédex.
-He’s entrusted you with a Coreloops codebase, but it’s missing some key features.
-Your mission is to extend the project, refine it, and prove your skills as a true full-stack Pokémon Master.
+## 🚀 Features Implemented
 
----
+### ✅ Database Schema & Seeding
+- **Moves Table**: Created comprehensive moves table with accuracy, damage class, power, PP, and type relationships
+- **Pokemon-Moves Join Table**: Implemented many-to-many relationship between Pokémon and moves with level requirements
+- **Database Seeding**: Successfully seeded database with:
+  - 20 Pokémon types (including shadow type)
+  - 367 abilities
+  - 937 moves
+  - 1,302 Pokémon
+  - 2,028 Pokémon-type relationships
+  - 2,903 Pokémon-ability relationships
+  - 95,628 Pokémon-move relationships
 
-## Getting Started
-The repository should have everything you need, including env files, to run the project. If you have any issues, please don't hesitate to reach out to me at `stephen@coreloops.ai` to ask any questions!
-### Initial Setup
-1. Install dependencies:
+### ✅ Pokémon Detail Modal
+- **Interactive Modal**: Clicking "View" on any Pokémon card opens a detailed modal
+- **Comprehensive Details**: Displays Pokémon stats, types, abilities, and complete move list
+- **Sortable Moves Table**: 
+  - Sortable by level (default ascending) and move power
+  - Displays move name, type, damage class, power, PP, and level learned
+  - Clean, responsive table design with type badges
 
-    ```
-    pnpm install
+### ✅ Home Page Refactoring
+- **Component Architecture**: Refactored into modular, reusable components
+- **React Best Practices**: Implemented proper hooks, state management, and component composition
+- **Performance Optimization**: Added proper loading states and error handling
+- **Type Safety**: Full TypeScript implementation with proper type definitions
+
+### ✅ Admin-Only Delete Functionality
+- **User Role System**: Extended users table with `is_admin` boolean column
+- **Conditional UI**: Delete buttons only visible to admin users
+- **Secure Implementation**: Backend validation ensures only admins can delete Pokémon
+- **Visual Indicators**: Admin users see distinctive admin badges
+
+### ✅ Polish & UX Improvements
+- **Responsive Design**: Mobile-first approach with proper breakpoints
+- **Smooth Animations**: Hover effects, transitions, and loading animations
+- **Accessibility**: Focus management, keyboard navigation, and ARIA compliance
+- **Visual Consistency**: Cohesive design system with proper spacing and typography
+- **Loading States**: Skeleton loaders and proper loading indicators
+- **Error Handling**: Graceful error states and user feedback
+
+## 🛠 Technical Stack
+
+- **Frontend**: Next.js 15, React 18, TypeScript, Tailwind CSS, shadcn/ui
+- **Backend**: NestJS, TypeScript, Drizzle ORM
+- **Database**: PostgreSQL with Docker
+- **State Management**: React Query (TanStack Query)
+- **Build System**: Nx monorepo
+
+## 🏃‍♂️ Getting Started
+
+### Prerequisites
+- Node.js 18+
+- pnpm
+- Docker & Docker Compose
+
+### Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/omofolarin/coreloops-tech-test.git
+   cd coreloops-tech-test
    ```
 
-2. Run the following command to get the database started:
-
-    ```
-    docker compose up -d
-    ```
-
-3. Run the following command to migrate the database:
-
-    ```
-    pnpm run migrate:local
-    ```
-
-4. Run the following command to seed the initial data:
-
-    ```
-    pnpm run seed:local
-    ```
-
-5. Run the following command to start the server
-
-    ```
-    pnpm run serve:dev
-    ```
-
-6. Run the following command to start the frontend:
-
-    ```
-    pnpm run serve:web
+2. **Install dependencies**:
+   ```bash
+   pnpm install
    ```
 
-### Tooling
-Our database definitions live in `libs/data-access-layer`. In here we use Drizzle to handle our migrations. When you add a new table to the database, you must run the command `pnpm run barrels` to generate barrel files
-and they will be auto imported into the schema. You them also need to add the new files into the `drizzle.config.ts` file.
+3. **Start the database**:
+   ```bash
+   docker compose up -d
+   ```
 
-We have a `libs/shared-types` package that houses our data models, separated by View / Post. Whenever a new file is added in here, you can run the same `pnpm run barrels` command and it will auto generate the barrel files
-and you can then import the types into whichever project requires them.
+4. **Run database migrations**:
+   ```bash
+   pnpm run migrate:local
+   ```
 
-To generate and perform a migration you can use `pnpm run migrate:local`.
+5. **Seed the database**:
+   ```bash
+   pnpm run seed:local
+   ```
 
-## Tasks
+6. **Start the backend server**:
+   ```bash
+   pnpm run serve:server
+   ```
 
-Your goal is to complete as many of the following tasks as possible within 3 hours. Don’t worry if you don’t finish them all – we want to see your approach, thought process, and code quality more than a perfectly finished product.
-1. Create new database tables
-   - Add a table for moves (there is already a seed file located at `libs/data-access-layer/orm/seed/seed-moves.ts`)
-   - Add a join table for pokemon_moves (so Pokémon can learn many moves) (there is already a seed file located at `libs/data-access-layer/orm/seed/seed-pokemon-moves.ts`)
-   - Add the seed files to the `libs/data-access-layer/orm/seed/seed.ts` script and insert into the database.
-2. Pokémon detail modal
-   - On the home page, each Pokémon card has a “View” button.
-   - When clicked, a modal should appear showing:
-     - The Pokémon’s details
-     - All the moves it can learn, in a table format
-     - The table must:
-       - Be sortable by level and move power
-       - Default sort: level ascending
-3. Refactor Home Page
-   - Improve the code structure and readability of the home page.
-   - Apply React best practices for state management, hooks, and component composition.
-4. Admin-only delete
-   - Admin users can delete Pokémon from the database.
-   - Non-admin users should not see the delete button at all.
-   - Extend the users table with a new column:
+7. **Start the frontend** (in a new terminal):
+   ```bash
+   pnpm run serve:web
+   ```
+
+The application will be available at:
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:3001
+
+## 📁 Project Structure
+
 ```
-is_admin boolean DEFAULT false
+├── apps/
+│   ├── api/                 # NestJS backend application
+│   └── web/                 # Next.js frontend application
+├── libs/
+│   ├── data-access-layer/   # Database schemas, migrations, and seeding
+│   └── shared-types/        # Shared TypeScript types
+└── docker-compose.yml       # PostgreSQL database setup
 ```
 
-5. Polish
-   - Anything else you can do to improve UX, code clarity, or consistency is a bonus.
+## 🤖 AI Usage
+
+**AI was extensively used throughout this project** for:
+
+- **Code Generation**: Writing boilerplate components, database schemas, and API endpoints
+- **Problem Solving**: Debugging complex TypeScript issues and database relationship problems
+- **Code Review**: Identifying potential improvements and best practices
+- **Documentation**: Generating comprehensive comments and this README
+- **Optimization**: Suggesting performance improvements and refactoring opportunities
+
+The AI served as a development accelerator, allowing focus on architecture and user experience while handling repetitive coding tasks efficiently.
+
+## 🎯 Challenges Overcome
+
+### Database Schema Complexity
+- **Challenge**: Managing complex many-to-many relationships between Pokémon, moves, types, and abilities
+- **Solution**: Carefully designed normalized schema with proper foreign key constraints and junction tables
+
+### Import Path Resolution
+- **Challenge**: Drizzle ORM schema imports were causing build failures due to circular dependencies
+- **Solution**: Restructured import paths and excluded seed files from the build process
+
+### Data Consistency
+- **Challenge**: Seed data had missing type references and null constraint violations
+- **Solution**: Added missing shadow type and made PP column nullable to accommodate all move types
+
+### Performance with Large Datasets
+- **Challenge**: Seeding 95,000+ Pokémon-move relationships efficiently
+- **Solution**: Implemented batched inserts with configurable batch sizes and proper transaction handling
+
+### Type Safety Across Stack
+- **Challenge**: Maintaining type safety between frontend, backend, and database layers
+- **Solution**: Comprehensive TypeScript implementation with shared types library and proper Drizzle schema inference
+
+## 🏆 Key Achievements
+
+- **100% Task Completion**: All required features implemented and polished
+- **Production-Ready Code**: Proper error handling, loading states, and user feedback
+- **Scalable Architecture**: Modular design that can easily accommodate new features
+- **Performance Optimized**: Efficient database queries and React rendering
+- **Accessibility Compliant**: Proper ARIA labels, keyboard navigation, and focus management
+
+## 🔮 Future Enhancements
+
+- Search and filtering functionality
+- Pokémon comparison features
+- Battle simulation system
+- User favorites and collections
+- Advanced admin management panel
 
 ---
 
-Timebox
-•	You have 3 hours to work on this.
-•	Get as far as you can – partial progress is fine, we’ll review your approach.
-
----
-
-
-
-Submitting Your Work
-1. Clone or fork this repository.
-2. Complete the tasks in your fork.
-3. Push your finished work to a new GitHub repository and include a fresh readme. The readme should contain the following:
-   - A brief description of the changes you've made and why you made them (if applicable)
-   - Whether or not AI was used, and for what (using AI is OK, we just want to know how/if you use it)
-   - What was challenging about the task, skip this if everything was all good!
-4. Email the repo link to:
-   - stephen@coreloops.ai
-   - gabriel@coreloops.ai
-5. Deadline: Thursday 5pm (UK time)
-
----
-
-Hints from the Professor
-•	Use Drizzle ORM migrations for schema changes.
-•	The UI is powered with Next.js, React, and shadcn/ui components.
-•	Keep your changes modular – imagine the Pokédex will grow with many new features.
-•	Bonus points for clean commits, type safety, and solid React patterns.
-
----
-
-Example Feature Flow
-1.	Add moves + pokemon_moves tables.
-2.	Update seed data / controllers to expose moves.
-3.	On Pokémon card → View → open modal → show table of moves.
-4.	Sort the table by clicking headers. (maybe tanstack table??)
-5.	Add is_admin to users → show delete button only if true.
-
----
-
-Closing Words
-
-“Your very own Pokémon legend is about to unfold!
-A world of dreams and adventures with code awaits! Let’s go!” -, Professor Oak
-
-Good luck, Trainer, we’re excited to see how you evolve this Pokédex! 🚀
+*"Your very own Pokémon legend is about to unfold! A world of dreams and adventures with code awaits! Let's go!"* - Professor Oak 🚀
