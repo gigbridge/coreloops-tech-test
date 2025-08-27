@@ -1,7 +1,17 @@
-import { type PokemonSelectEntity } from '@coreloops/data-access-layer';
-import { IsArray, IsNumber, IsString, IsUUID } from 'class-validator';
+import { IsArray, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
 import { ViewAbilityDto } from './ability.dto';
+import { PokemonMoveDto } from './pokemon-move.dto';
 import { ViewTypeDto } from './type.dto';
+
+// Extended type definition for PokemonSelectEntity with moves
+interface PokemonSelectEntity {
+  id: string;
+  name: string;
+  pokedexNumber: number;
+  abilities?: any[];
+  types?: any[];
+  moves?: any[];
+}
 
 export class ViewPokemonDto {
   @IsUUID()
@@ -19,16 +29,24 @@ export class ViewPokemonDto {
   @IsArray()
   types!: ViewTypeDto[];
 
+  @IsOptional()
+  @IsArray()
+  moves?: PokemonMoveDto[];
+
   constructor(entity: PokemonSelectEntity) {
     if (entity) {
       Object.assign(this, entity);
 
       if (entity.abilities) {
-        this.abilities = entity.abilities.map(ability => new ViewAbilityDto(ability.ability));
+        this.abilities = entity.abilities.map((ability: any) => new ViewAbilityDto(ability.ability));
       }
 
       if (entity.types) {
-        this.types = entity.types.map(type => new ViewTypeDto(type.type));
+        this.types = entity.types.map((type: any) => new ViewTypeDto(type.type));
+      }
+
+      if (entity.moves) {
+        this.moves = entity.moves.map((pokemonMove: any) => new PokemonMoveDto(pokemonMove));
       }
     }
   }
