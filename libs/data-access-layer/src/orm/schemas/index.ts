@@ -3,7 +3,9 @@
  */
 
 export * from './abilities/index';
+export * from './moves/index';
 export * from './pokemon-abilities/index';
+export * from './pokemon-moves/index';
 export * from './pokemon-types/index';
 export * from './pokemons/index';
 export * from './types/index';

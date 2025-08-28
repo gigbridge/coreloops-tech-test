@@ -1,3 +1,3 @@
-import { abilityEntity } from '@coreloops-orm/schemas';
+import { abilityEntity } from './ability.entity';
 
 export type AbilitySelectEntity = typeof abilityEntity.$inferSelect;

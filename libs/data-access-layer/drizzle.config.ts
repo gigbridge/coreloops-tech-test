@@ -12,8 +12,12 @@ export default defineConfig({
   schema: [
     `${basePath}/abilities/ability.entity.ts`,
     `${basePath}/abilities/ability.relations.ts`,
+    `${basePath}/moves/move.entity.ts`,
+    `${basePath}/moves/move.relations.ts`,
     `${basePath}/pokemon-abilities/pokemon-ability.entity.ts`,
     `${basePath}/pokemon-abilities/pokemon-ability.relations.ts`,
+    `${basePath}/pokemon-moves/pokemon-move.entity.ts`,
+    `${basePath}/pokemon-moves/pokemon-move.relations.ts`,
     `${basePath}/pokemon-types/pokemon-type.entity.ts`,
     `${basePath}/pokemon-types/pokemon-type.relations.ts`,
     `${basePath}/pokemons/pokemon.entity.ts`,

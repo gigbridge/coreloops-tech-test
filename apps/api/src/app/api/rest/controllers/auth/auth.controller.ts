@@ -48,7 +48,7 @@ export class AuthController {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const payload = { sub: user.id, username: user.username };
+    const payload = { sub: user.id, username: user.username, isAdmin: user.isAdmin };
     const accessToken = await this.jwt.signAsync(payload, {
       expiresIn: '24h',
       secret: JWT_SECRET,
@@ -75,7 +75,7 @@ export class AuthController {
 
     const created: UserSelectEntity = await this.userService.createUser(username, passwordHash);
 
-    const payload = { sub: created.id, username: created.username };
+    const payload = { sub: created.id, username: created.username, isAdmin: created.isAdmin };
     const accessToken = await this.jwt.signAsync(payload, {
       expiresIn: '24h',
       secret: JWT_SECRET,

@@ -3,11 +3,14 @@
 import { useApiInfiniteQuery } from '@/src/api/hooks/use-api-query';
 import { Button } from '@/src/components/ui/button';
 import { Skeleton } from '@/src/components/ui/skeleton';
+import { useAuth } from '@/src/hooks/use-auth';
+import { getStorageItem, StorageKeys } from '@/src/lib/storage';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@coreloops-ui/card';
 import { ViewPokemonDto } from '@coreloops/shared-types';
 import { Loader2, Trash } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import PokemonDetailModal from '../../components/PokemonDetailModal';
 
 function formatDexNo(n: number) {
   return `#${String(n).padStart(3, '0')}`;
@@ -46,6 +49,50 @@ function useGridColumns() {
 export default function Home() {
   const { items, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useApiInfiniteQuery<ViewPokemonDto>(['pokemon'], '/pokemon', { limit: 25 });
+
+  // Auth state to get user admin status
+  const { isAdmin } = useAuth();
+
+  // Modal state
+  const [selectedPokemon, setSelectedPokemon] = useState<ViewPokemonDto | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleViewPokemon = (pokemon: ViewPokemonDto) => {
+    setSelectedPokemon(pokemon);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedPokemon(null);
+  };
+
+  const handleDeletePokemon = async (pokemonId: string) => {
+    if (!isAdmin) {
+      console.error('Only admin users can delete Pokemon');
+      return;
+    }
+
+    try {
+      // Call the API directly since we need to pass the ID in the URL path
+      const response = await fetch(`/pokemon/${pokemonId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getStorageItem(StorageKeys.AccessToken)}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete Pokemon');
+      }
+
+      // Refetch the pokemon list after successful deletion
+      window.location.reload();
+    } catch (error) {
+      console.error('Failed to delete Pokemon:', error);
+    }
+  };
 
   // Sentinel element we observe to trigger fetching more
   const sentinelRef = useRef<HTMLDivElement | null>(null);
@@ -160,12 +207,20 @@ export default function Home() {
                   </CardContent>
 
                   <CardFooter className="flex w-full flex-row items-center justify-between gap-2">
-                    <Button size="sm" variant="secondary">
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => {
+                        handleViewPokemon(p);
+                      }}
+                    >
                       View
                     </Button>
-                    <Button variant="ghost" size="icon">
-                      <Trash className="text-destructive size-4" />
-                    </Button>
+                    {isAdmin && (
+                      <Button variant="ghost" size="icon" onClick={() => handleDeletePokemon(p.id)}>
+                        <Trash className="text-destructive size-4" />
+                      </Button>
+                    )}
                   </CardFooter>
                 </Card>
               ))}
@@ -211,6 +266,11 @@ export default function Home() {
           </>
         )}
       </div>
+
+      {/* Pokemon Detail Modal */}
+      {selectedPokemon && (
+        <PokemonDetailModal pokemon={selectedPokemon} isOpen={isModalOpen} onClose={handleCloseModal} />
+      )}
     </div>
   );
 }
