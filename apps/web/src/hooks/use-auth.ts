@@ -14,7 +14,7 @@ function isTokenExpired(token: string): boolean {
 }
 
 export function useAuth() {
-  const [state, setState] = useState({ loading: true, isAuthenticated: false });
+  const [state, setState] = useState({ loading: true, isAuthenticated: false, isAdmin: false });
   const pathname = usePathname();
 
   useEffect(() => {
@@ -24,13 +24,20 @@ export function useAuth() {
       return;
     }
 
-    setState({ loading: false, isAuthenticated: true });
+    let isAdmin = false;
+    try {
+      const decoded: any = jwtDecode(accessToken);
+      // Accept either top-level isAdmin or nested claim
+      isAdmin = !!(decoded?.isAdmin ?? decoded?.user?.isAdmin);
+    } catch {}
+
+    setState({ loading: false, isAuthenticated: true, isAdmin });
   }, [pathname]);
 
   const unauthenticate = () => {
     removeStorageItem(StorageKeys.AccessToken);
-    setState({ loading: false, isAuthenticated: false });
+    setState({ loading: false, isAuthenticated: false, isAdmin: false });
   };
 
-  return { loading: state.loading, isAuthenticated: state.isAuthenticated };
+  return { loading: state.loading, isAuthenticated: state.isAuthenticated, isAdmin: state.isAdmin };
 }

@@ -1,0 +1,1 @@
+ALTER TABLE "moves" ALTER COLUMN "damage_class" DROP NOT NULL;

@@ -15,5 +15,5 @@
     "../../libs/shared-types",
     "../../libs/data-access-layer"
   ],
-  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts", "../../libs/data-access-layer/src/orm/seed/**/*"]
 }
