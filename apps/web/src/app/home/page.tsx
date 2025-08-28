@@ -10,7 +10,9 @@ import { useAuth } from '@/src/hooks/use-auth';
 import { useGridColumns } from '@/src/hooks/use-grid-columns';
 import { useIntersectionObserver } from '@/src/hooks/use-intersection-observer';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@coreloops-ui/card';
+import type { Connection } from '@coreloops/shared-types';
 import { ViewPokemonDto } from '@coreloops/shared-types';
+import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useMemo, useRef, useState } from 'react';
 
@@ -42,14 +44,47 @@ export default function Home() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const { isAdmin } = useAuth();
+  const queryClient = useQueryClient();
 
-  async function handleDelete(pokemon: ViewPokemonDto) {
-    try {
+  const deletePokemonMutation = useMutation({
+    mutationFn: async (pokemon: ViewPokemonDto) => {
       await apiFetch(`/pokemon/${pokemon.id}`, { method: 'DELETE' });
-      await raw.refetch();
-    } catch {
-      // noop
-    }
+    },
+    onMutate: async (pokemon: ViewPokemonDto) => {
+      const pokemonQueryKey = [['pokemon'], 25] as const;
+      await queryClient.cancelQueries({ queryKey: pokemonQueryKey });
+
+      const previous = queryClient.getQueryData<InfiniteData<Connection<ViewPokemonDto>>>(pokemonQueryKey);
+
+      queryClient.setQueryData<InfiniteData<Connection<ViewPokemonDto>>>(pokemonQueryKey, old => {
+        if (!old) return old;
+        const pages = old.pages.map(page => ({
+          ...page,
+          nodes: page.nodes.filter((n: ViewPokemonDto) => n.id !== pokemon.id),
+          pageInfo: {
+            ...page.pageInfo,
+            total: Math.max(0, (page.pageInfo.total ?? 0) - 1),
+          },
+        }));
+        return { ...old, pages };
+      });
+
+      return { previous };
+    },
+    onError: (_err, _pokemon, context) => {
+      if (context?.previous) {
+        const pokemonQueryKey = [['pokemon'], 25] as const;
+        queryClient.setQueryData(pokemonQueryKey, context.previous);
+      }
+    },
+    onSettled: () => {
+      const pokemonQueryKey = [['pokemon'], 25] as const;
+      void queryClient.invalidateQueries({ queryKey: pokemonQueryKey });
+    },
+  });
+
+  function handleDelete(pokemon: ViewPokemonDto) {
+    deletePokemonMutation.mutate(pokemon);
   }
 
   if (isError) {
