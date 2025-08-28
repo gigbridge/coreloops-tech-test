@@ -43,6 +43,13 @@
       "when": 1756342803524,
       "tag": "0005_wide_lady_bullseye",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1756392523503,
+      "tag": "0006_wild_hedge_knight",
+      "breakpoints": true
     }
   ]
 }
