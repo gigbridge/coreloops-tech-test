@@ -6,6 +6,6 @@
     "composite": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "../data-access-layer/src"],
+  "include": ["src/**/*.ts"],
   "references": [{"path":  "../data-access-layer"}]
 }

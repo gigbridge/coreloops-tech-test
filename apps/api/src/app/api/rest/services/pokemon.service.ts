@@ -1,5 +1,5 @@
 import { PokemonRepository } from '@coreloops-repos/pokemons/pokemon.repository';
-import { Connection, CursorQueryDto, ViewPokemonDto } from '@coreloops/shared-types';
+import { Connection, CursorQueryDto, ViewMoveDto, ViewPokemonDto } from '@coreloops/shared-types';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -26,5 +26,16 @@ export class PokemonService {
         total: count,
       },
     };
+  }
+
+  async findPokemonMoves(pokemonId: string) {
+    const moves = await this.pokemonRepo.findPokemonMoves(pokemonId);
+    return {
+      data: moves.map(move => new ViewMoveDto(move)),
+    };
+  }
+
+  async deletePokemon(pokemonId: string): Promise<void> {
+    await this.pokemonRepo.deletePokemon(pokemonId);
   }
 }

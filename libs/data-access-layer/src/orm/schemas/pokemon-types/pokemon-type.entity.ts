@@ -1,5 +1,6 @@
-import { pokemonEntity, typeEntity } from '@coreloops-orm/schemas';
 import { pgTable, primaryKey, uuid } from 'drizzle-orm/pg-core';
+import { pokemonEntity } from '../pokemons/pokemon.entity';
+import { typeEntity } from '../types/type.entity';
 
 export const pokemonTypeEntity = pgTable(
   'pokemon_types',

@@ -1,3 +1,3 @@
-import { typeEntity } from '@coreloops-orm/schemas';
+import { typeEntity } from './type.entity';
 
 export type TypeSelectEntity = typeof typeEntity.$inferSelect;

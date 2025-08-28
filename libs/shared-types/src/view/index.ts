@@ -3,6 +3,7 @@
  */
 
 export * from './ability.dto';
+export * from './move.dto';
 export * from './pokemon.dto';
 export * from './sign-in.dto';
 export * from './type.dto';

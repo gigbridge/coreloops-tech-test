@@ -1,5 +1,8 @@
-import { abilityEntity, pokemonAbilityEntity, pokemonEntity } from '@coreloops-orm/schemas';
 import { relations } from 'drizzle-orm';
+
+import { abilityEntity } from '../abilities/ability.entity';
+import { pokemonEntity } from '../pokemons/pokemon.entity';
+import { pokemonAbilityEntity } from './pokemon-ability.entity';
 
 export const pokemonAbilityRelations = relations(pokemonAbilityEntity, ({ one }) => {
   return {
