@@ -7,7 +7,7 @@ export const pokemonAbilityEntity = pgTable(
   {
     pokemonId: uuid('pokemon_id')
       .notNull()
-      .references(() => pokemonEntity.id),
+      .references(() => pokemonEntity.id, { onDelete: 'cascade' }),
     abilityId: uuid('ability_id')
       .notNull()
       .references(() => abilityEntity.id),

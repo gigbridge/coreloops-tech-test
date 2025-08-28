@@ -1,0 +1,1 @@
+ALTER TABLE "moves" ALTER COLUMN "type_id" DROP NOT NULL;

@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { NodePgDatabase, drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
-import { schema } from './schema';
+import { schema, tablesAndRelations } from './schema';
 
 export type DrizzleDb = NodePgDatabase<typeof schema>;
 
@@ -15,6 +15,6 @@ export class DrizzleProvider implements OnModuleInit {
     });
 
     await client.connect();
-    this.db = drizzle({ client, schema });
+    this.db = drizzle({ client, schema: tablesAndRelations }) as unknown as DrizzleDb;
   }
 }
