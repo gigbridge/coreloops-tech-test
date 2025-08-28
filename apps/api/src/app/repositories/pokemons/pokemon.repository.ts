@@ -1,7 +1,8 @@
 import { UserStore } from '@coreloops-api/shared/contexts';
+import { WithClause } from '@coreloops-api/shared/utils/types';
 import { PokemonSelectEntity } from '@coreloops-orm/schemas/pokemons/pokemon.types';
 import { BaseRepository } from '@coreloops-repos/base.repository';
-import { DrizzleProvider, pokemonEntity } from '@coreloops/data-access-layer';
+import { DrizzleProvider, pokemonEntity, pokemonMoveEntity } from '@coreloops/data-access-layer';
 import { CursorQueryDto } from '@coreloops/shared-types';
 import { Injectable } from '@nestjs/common';
 import { asc, eq, gt } from 'drizzle-orm';
@@ -18,8 +19,8 @@ export class PokemonRepository extends BaseRepository {
     super(drizzle, cls);
   }
 
-  private buildWithClause(includeMoves = false): any {
-    const withClause: any = {
+  private buildWithClause(includeMoves = false): WithClause {
+    const withClause: WithClause = {
       abilities: { with: { ability: true } },
       types: { with: { type: true } },
     };
@@ -27,7 +28,9 @@ export class PokemonRepository extends BaseRepository {
     if (includeMoves) {
       withClause.moves = {
         with: { move: { with: { type: true } } },
-        orderBy: (pokemonMoves: any, { asc }: any) => [asc(pokemonMoves.level)],
+        orderBy: (pokemonMoves: typeof pokemonMoveEntity, helpers: { asc: typeof asc }): [ReturnType<typeof asc>] => [
+          helpers.asc(pokemonMoves.level),
+        ],
       };
     }
 
