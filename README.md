@@ -40,7 +40,7 @@
 
 ### Use of AI
 
-I used AI (ChatGPT) to debug and understand the error I was getting from Drizzle ORM. The error messages were not very clear, and AI helped me identify the root cause and correct schema initialization approach.
+I used AI to debug and understand the error I was getting from Drizzle ORM. The error messages were not very clear, and AI helped me identify the root cause and correct schema initialization approach.
 
 ### Challenges Faced
 
