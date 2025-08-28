@@ -113,4 +113,10 @@ export const seedTypes = [
     iconUrl:
       'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-ix/scarlet-violet/19.png',
   },
+  {
+    id: '8191d86c-c7ce-4c4a-9c36-8c28d9ce081b',
+    name: 'shadow',
+    iconUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-ix/scarlet-violet/1.png',
+  },
 ];

@@ -1,18 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { entitySchema } from '@coreloops-orm/schema';
-import {
-  abilityEntity,
-  pokemonAbilityEntity,
-  pokemonEntity,
-  pokemonTypeEntity,
-  typeEntity,
-} from '@coreloops-orm/schemas';
 import dotenv from 'dotenv';
 import { drizzle, NodePgTransaction } from 'drizzle-orm/node-postgres';
 import path from 'node:path';
+import { schema } from '../schema';
+import {
+  abilityEntity,
+  moveEntity,
+  pokemonAbilityEntity,
+  pokemonEntity,
+  pokemonMoveEntity,
+  pokemonTypeEntity,
+  typeEntity,
+} from '../schemas';
 import { seedAbilities } from './seed-abilities';
+import { seedMoves } from './seed-moves';
 import { seedPokemon } from './seed-pokemon';
 import { seedPokemonAbilities } from './seed-pokemon-abilities';
+import { seedPokemonMoves } from './seed-pokemon-moves';
 import { seedPokemonTypes } from './seed-pokemon-types';
 import { seedTypes } from './seed-types';
 
@@ -23,7 +27,7 @@ if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL is not set');
 }
 
-const db = drizzle(process.env.DATABASE_URL, { schema: entitySchema });
+const db = drizzle(process.env.DATABASE_URL, { schema });
 
 const BATCH_SIZE = 1000;
 
@@ -34,7 +38,7 @@ function chunk<T>(arr: readonly T[], size = BATCH_SIZE): T[][] {
 }
 
 async function insertBatched<T>(
-  tx: NodePgTransaction<typeof entitySchema, any>,
+  tx: NodePgTransaction<typeof schema, any>,
   table: any,
   rows: readonly T[],
   mapValues?: (row: T) => any,
@@ -71,7 +75,19 @@ async function main() {
       description: a.description,
     }));
 
-    // 3) Pokemon
+    // 3) Moves
+    console.log(`→ moves (${seedMoves.length})`);
+    await insertBatched(tx, moveEntity, seedMoves, m => ({
+      id: m.id,
+      name: m.name,
+      accuracy: m.accuracy,
+      damageClass: m.damageClass,
+      power: m.power,
+      pp: m.pp,
+      typeId: m.typeId,
+    }));
+
+    // 4) Pokemon
     console.log(`→ pokemon (${seedPokemon.length})`);
     await insertBatched(tx, pokemonEntity, seedPokemon, p => ({
       id: p.id,
@@ -79,19 +95,27 @@ async function main() {
       name: p.name,
     }));
 
-    // 4) Pokemon Types
+    // 5) Pokemon Types
     console.log(`→ pokemon_types (${seedPokemonTypes.length})`);
     await insertBatched(tx, pokemonTypeEntity, seedPokemonTypes, pt => ({
       pokemonId: pt.pokemonId,
       typeId: pt.typeId,
     }));
 
-    // 5) Pokemon Abilities
+    // 6) Pokemon Abilities
     console.log(`→ pokemon_abilities (${seedPokemonAbilities.length})`);
     await insertBatched(tx, pokemonAbilityEntity, seedPokemonAbilities, pa => ({
       pokemonId: pa.pokemonId,
       abilityId: pa.abilityId,
       hidden: pa.hidden,
+    }));
+
+    // 7) Pokemon Moves
+    console.log(`→ pokemon_moves (${seedPokemonMoves.length})`);
+    await insertBatched(tx, pokemonMoveEntity, seedPokemonMoves, pm => ({
+      pokemonId: pm.pokemonId,
+      moveId: pm.moveId,
+      level: pm.level,
     }));
   });
 

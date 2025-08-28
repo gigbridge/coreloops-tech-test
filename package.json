@@ -13,7 +13,7 @@
     "generate:barrels": "barrelsby --config barrelsby.json",
     "format:barrels": "prettier --write \"libs/**/index.ts\"",
     "lint:barrels": "eslint --fix \"libs/**/index.ts\"",
-    "barrels": "pnpm run generate:barrels && pnpm run lint:barrels && pnpm run format:barrels"
+    "barrels": "pnpm run generate:barrels"
   },
   "prettier": {
     "arrowParens": "avoid",
